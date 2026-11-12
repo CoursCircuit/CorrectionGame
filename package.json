@@ -1,0 +1,38 @@
+{
+  "name": "CorrectionGame",
+  "version": "2.2.1",
+  "description": "Application de correction interactive de documents PDF pour la classe.",
+  "author": "S. Bovat",
+  "main": "main.js",
+  "build": {
+    "appId": "ch.bercher.correctiongame",
+    "mac": {
+      "target": "dmg",
+      "identity": null,
+      "icon": "build/icon.png",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "category": "public.app-category.education"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "app.js",
+      "styles.css",
+      "theme.css",
+      "vendor/**",
+      "assets/**"
+    ]
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist:mac": "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac dmg",
+    "dist:universal": "npm run dist:mac -- --universal"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "license": "MIT"
+}

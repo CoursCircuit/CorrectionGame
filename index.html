@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Correction Game</title>
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="stylesheet" href="styles.css?v=11" />
+  <link rel="stylesheet" href="theme.css?v=6" />
+</head>
+<body>
+  <svg class="icon-sprite" aria-hidden="true">
+    <defs>
+      <linearGradient id="cg-sheen" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.62"/>
+        <stop offset="0.46" stop-color="#fff" stop-opacity="0.04"/>
+        <stop offset="1" stop-color="#0b1b3a" stop-opacity="0.34"/>
+      </linearGradient>
+      <linearGradient id="cg-sheen-soft" x1="0.2" y1="0" x2="0.8" y2="1">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.28"/>
+        <stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
+        <stop offset="1" stop-color="#0b1b3a" stop-opacity="0.4"/>
+      </linearGradient>
+      <radialGradient id="cg-specular" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <symbol id="i-folder-open" viewBox="0 0 24 24"><path d="M3 7.5h6l2 2h10v8.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 8V6a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v1.5"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M4 4h13l3 3v13H4z"/><path d="M8 4v6h8V4"/><path d="M8 20v-6h8v6"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M12 17V10"/><path d="m9 13 3-3 3 3"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.5 2.5 0 0 1 4.8 1c0 2-2.5 2.2-2.5 4"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h6m4 0h6M4 12h10m4 0h2M4 18h2m4 0h10M10 3v6m4 0v6m-8 0v6"/></symbol>
+    <symbol id="i-mask" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" class="filled-icon"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 5h14"/><path d="M12 5v14"/><path d="M8 19h8"/></symbol>
+    <symbol id="i-highlight" viewBox="0 0 24 24"><path d="m14 4 6 6-9 9H5v-6z"/><path d="m12 6 6 6"/><path d="M4 21h16"/></symbol>
+    <symbol id="i-underline" viewBox="0 0 24 24"><path d="M7 4v7a5 5 0 0 0 10 0V4"/><path d="M5 20h14"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+    <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m7 18-3-3L14 5l6 6-7 7z"/><path d="m11 8 6 6"/><path d="M7 18h13"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-page" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="1.5"/></symbol>
+    <symbol id="i-pages" viewBox="0 0 24 24"><rect x="2.5" y="4" width="8" height="16" rx="1.5"/><rect x="13.5" y="4" width="8" height="16" rx="1.5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2"/><path d="M16 15a5 5 0 0 1 5 5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.1 8a7 7 0 0 1 11.5-1L20 12M4 12l2.4 5a7 7 0 0 0 11.5-1"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 12v5M8 20h8M9 17h6"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/><path d="m11 9-3 3 3 3"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <header id="toolbar">
+    <div id="file-toolbar-row" class="toolbar-row toolbar-row-main">
+      <div class="app-brand" aria-label="Correction Game">
+        <img class="app-mark" src="assets/app-icon-256.png" width="30" height="30" alt="" draggable="false" />
+        <span class="app-title">Correction <b>Game</b></span>
+      </div>
+
+      <section class="tool-section file-tools" aria-label="Fichiers et sessions">
+        <div class="toolbar-group">
+          <button id="open-pdf-btn" class="tool-btn primary" title="Ouvrir un PDF">
+            <svg class="tool-icon" aria-hidden="true"><use href="#i-folder-open" /></svg><span>Ouvrir un PDF</span>
+          </button>
+          <button id="reopen-last-pdf-btn" class="tool-btn" title="Reprendre le dernier PDF" disabled>
+            <svg class="tool-icon" aria-hidden="true"><use href="#i-history" /></svg><span>Dernier PDF</span>
+          </button>
+          <button id="save-session-btn" class="tool-btn" title="Enregistrer la session" disabled>
+            <svg class="tool-icon" aria-hidden="true"><use href="#i-save" /></svg><span>Enregistrer</span>
+          </button>
+          <button id="load-session-btn" class="tool-btn" title="Charger une session">
+            <svg class="tool-icon" aria-hidden="true"><use href="#i-upload" /></svg><span>Charger une session</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="toolbar-row toolbar-row-tools">
+      <button id="toggle-filebar-btn" class="filebar-toggle" title="Replier la rangée des fichiers" aria-label="Replier la rangée des fichiers" aria-expanded="true" aria-controls="file-toolbar-row">
+        <svg><use href="#i-chevron-up" /></svg>
+      </button>
+      <section class="tool-section annotation-tools" aria-label="Annotations">
+        <div class="toolbar-group">
+          <button id="add-overlay-btn" class="tool-btn" title="Ajouter un cache noir" disabled>
+            <svg class="tool-icon"><use href="#i-mask" /></svg><span>Masque</span>
+          </button>
+          <button id="add-text-btn" class="tool-btn" title="Ajouter une annotation texte" disabled>
+            <svg class="tool-icon"><use href="#i-text" /></svg><span>Texte</span>
+          </button>
+          <button id="toggle-highlight-tool-btn" class="tool-btn" title="Surligner en glissant sur le PDF" disabled>
+            <svg class="tool-icon"><use href="#i-highlight" /></svg><span>Surligner</span>
+          </button>
+          <button id="toggle-underline-tool-btn" class="tool-btn" title="Souligner en glissant sur le PDF" disabled>
+            <svg class="tool-icon"><use href="#i-underline" /></svg><span>Souligner</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="tool-section assignment-tools" aria-label="Attribution des masques">
+        <div class="toolbar-group">
+          <button id="assign-btn" class="tool-btn" title="Réattribuer les masques aux élèves" aria-label="Réattribuer les masques aux élèves" disabled>
+            <svg class="tool-icon"><use href="#i-target" /></svg><span>Réattribuer</span>
+          </button>
+          <button id="clear-assignments-btn" class="tool-btn" title="Effacer les attributions" aria-label="Effacer les attributions" disabled>
+            <svg class="tool-icon"><use href="#i-eraser" /></svg><span>Effacer</span>
+          </button>
+          <button id="anchor-overlays-btn" hidden>Ancrer</button>
+        </div>
+      </section>
+
+      <button id="tool-settings-btn" class="tool-btn" type="button" popovertarget="tool-settings" aria-controls="tool-settings" aria-label="Réglages d’annotation" title="Réglages d’annotation">
+        <svg class="tool-icon" aria-hidden="true"><use href="#i-settings" /></svg><span>Réglages</span>
+      </button>
+
+      <section class="tool-section zoom-tools" aria-label="Zoom">
+        <div class="toolbar-group zoom-controls">
+          <button id="zoom-out-btn" class="round-tool-btn" title="Dézoomer" disabled><svg><use href="#i-minus" /></svg></button>
+          <button id="zoom-reset-btn" class="zoom-value" title="Revenir à 100 %" disabled><span id="zoom-label">100 %</span></button>
+          <button id="zoom-in-btn" class="round-tool-btn" title="Zoomer" disabled><svg><use href="#i-plus" /></svg></button>
+        </div>
+      </section>
+
+      <section class="tool-section navigation-tools" aria-label="Navigation">
+        <div class="toolbar-group navigation-controls">
+          <button id="prev-page-btn" class="round-tool-btn" title="Page précédente" disabled><svg><use href="#i-chevron-left" /></svg></button>
+          <span id="page-indicator" aria-live="polite"></span>
+          <button id="next-page-btn" class="round-tool-btn" title="Page suivante" disabled><svg><use href="#i-chevron-right" /></svg></button>
+          <button id="page-overview-btn" class="view-btn" title="Aperçu de toutes les pages" aria-label="Aperçu de toutes les pages" disabled><svg aria-hidden="true"><use href="#i-grid" /></svg><span>Aperçu</span></button>
+          <div class="view-switch" role="group" aria-label="Nombre de pages affichées">
+            <button id="single-page-btn" class="view-btn active" title="Afficher une page" aria-label="Afficher une page"><svg aria-hidden="true"><use href="#i-page" /></svg><span>1 page</span></button>
+            <button id="two-page-btn" class="view-btn" title="Afficher deux pages côte à côte" aria-label="Afficher deux pages côte à côte"><svg aria-hidden="true"><use href="#i-pages" /></svg><span>2 pages</span></button>
+          </div>
+        </div>
+      </section>
+
+      <button id="open-help-btn" class="tool-btn" type="button" aria-haspopup="dialog" title="Ouvrir le guide de Correction Game">
+        <svg class="tool-icon" aria-hidden="true"><use href="#i-help" /></svg><span>Aide</span>
+      </button>
+    </div>
+
+    <section id="tool-settings" class="tool-popover" popover aria-labelledby="tool-settings-title">
+      <h2 id="tool-settings-title">Réglages d’annotation</h2>
+      <label class="setting-row" for="overlay-opacity-input"><span>Opacité des masques</span><output id="overlay-opacity-output" aria-hidden="true">85 %</output></label>
+      <input id="overlay-opacity-input" type="range" min="30" max="100" step="1" value="85" />
+      <label class="setting-row" for="markup-color-input"><span>Couleur du surlignage et du soulignement</span><input id="markup-color-input" type="color" value="#ffd54f" /></label>
+      <div id="text-style-tools" class="text-style-tools disabled">
+        <h3>Zones de texte</h3>
+        <label class="setting-row" for="text-size-input"><span>Taille du texte</span><input id="text-size-input" type="number" min="1" max="96" step="1" value="12" /></label>
+        <button id="text-size-all-btn" type="button">Appliquer à toutes les zones</button>
+        <label class="setting-row" for="text-color-input"><span>Couleur du texte sélectionné</span><input id="text-color-input" type="color" value="#1976d2" /></label>
+        <label for="text-opacity-input">Opacité du fond du texte sélectionné</label>
+        <input id="text-opacity-input" type="range" min="0" max="100" step="1" value="100" />
+      </div>
+    </section>
+  </header>
+
+  <main id="main">
+    <section id="viewer-wrapper">
+      <nav id="document-bar" aria-label="Documents ouverts" hidden>
+        <div id="document-tabs"></div>
+      </nav>
+      <template id="document-tab-template">
+        <div class="document-tab">
+          <button type="button" class="document-tab-open" aria-pressed="false"><svg class="tool-icon" aria-hidden="true"><use href="#i-page" /></svg><span></span></button>
+          <button type="button" class="document-tab-close"><svg class="tool-icon" aria-hidden="true"><use href="#i-close" /></svg></button>
+        </div>
+      </template>
+      <div id="pdf-scroll" class="scroll-area" tabindex="-1">
+        <section id="welcome-panel" aria-labelledby="welcome-title">
+          <div class="welcome-card">
+            <img class="welcome-art" src="assets/empty-state.png" width="900" height="600" alt="" draggable="false" />
+            <h1 id="welcome-title">Ouvrez un PDF pour commencer</h1>
+            <p>Cachez les réponses de votre corrigé, puis révélez-les au fil de la correction en classe.</p>
+            <div class="welcome-actions">
+              <button id="welcome-open-pdf-btn" class="primary" type="button">Ouvrir un PDF</button>
+              <button id="welcome-help-btn" type="button" aria-haspopup="dialog">Voir le guide</button>
+            </div>
+          </div>
+        </section>
+        <div id="pdf-container"></div>
+      </div>
+      <div id="session-feedback" aria-hidden="true" hidden></div>
+    </section>
+    <button id="toggle-sidebar-btn" class="sidebar-toggle" title="Masquer la liste des élèves" aria-label="Masquer la liste des élèves" aria-expanded="true" aria-controls="sidebar">
+      <svg><use href="#i-panel" /></svg>
+    </button>
+    <div id="sidebar-resizer" role="separator" aria-label="Redimensionner la liste des élèves" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="520" aria-valuenow="320" tabindex="0"></div>
+    <aside id="sidebar">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <label for="class-select">Classe active</label>
+          <div class="sidebar-actions">
+            <select id="class-select"></select>
+            <button id="leaderboard-btn" class="sidebar-icon-btn" disabled title="Afficher le classement" aria-label="Afficher le classement"><svg><use href="#i-trophy" /></svg></button>
+            <button id="manage-classes-btn" class="sidebar-icon-btn" title="Gérer les classes" aria-label="Gérer les classes" aria-haspopup="dialog"><svg aria-hidden="true"><use href="#i-users" /></svg></button>
+            <button id="reset-scores-btn" class="sidebar-icon-btn" disabled title="Réinitialiser les scores" aria-label="Réinitialiser les scores"><svg><use href="#i-refresh" /></svg></button>
+          </div>
+        </div>
+        <div id="student-list" aria-live="polite"></div>
+        <div id="grade-legend" class="grade-legend" aria-label="Grades de progression">
+          <span data-grade="starter">Débutant</span>
+          <span data-grade="apprentice">Apprenti</span>
+          <span data-grade="confirmed">Confirmé</span>
+          <span data-grade="expert">Expert</span>
+          <span data-grade="master">Maître</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="session-status" class="sr-only" role="status" aria-atomic="true"></div>
+
+  <dialog id="class-modal" class="app-dialog class-dialog" aria-labelledby="class-modal-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="class-modal-title">Gestion des classes</h2>
+        <button id="close-modal-btn" class="icon-btn" aria-label="Fermer">×</button>
+      </div>
+      <div class="modal-body">
+        <section class="class-list-panel">
+          <div class="panel-header">
+            <h3>Vos classes</h3>
+            <button id="new-class-btn">Nouvelle classe</button>
+          </div>
+          <ul id="class-list"></ul>
+        </section>
+        <section class="class-editor-panel">
+          <div class="field">
+            <label for="class-name-input">Nom de la classe</label>
+            <input id="class-name-input" type="text" placeholder="Exemple 11VG1" autofocus />
+          </div>
+          <div class="field">
+            <label for="student-names-input">Prénoms des élèves</label>
+            <p id="student-names-hint" class="field-hint">Saisissez un prénom par ligne. Vous pouvez aussi coller une colonne depuis un tableau.</p>
+            <textarea id="student-names-input" rows="7" aria-describedby="student-names-hint" placeholder="Alice&#10;Bob&#10;Charlie"></textarea>
+          </div>
+          <details id="class-options" class="class-options">
+            <summary>Dossier, barème et grades</summary>
+            <div class="class-options-fields">
+              <div class="field">
+                <label for="class-folder-input">Dossier de la classe (facultatif)</label>
+                <div class="folder-picker-row">
+                  <input id="class-folder-input" type="text" placeholder="Aucun dossier sélectionné" readonly />
+                  <button id="choose-class-folder-btn" type="button">Choisir</button>
+                  <button id="clear-class-folder-btn" type="button">Effacer</button>
+                </div>
+              </div>
+              <fieldset class="field">
+                <legend>Barème</legend>
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="class-correct-points-input">Points gagnés si juste</label>
+                    <input id="class-correct-points-input" type="number" min="0" step="1" value="10" />
+                  </div>
+                  <div class="field">
+                    <label for="class-incorrect-points-input">Points retirés si faux</label>
+                    <input id="class-incorrect-points-input" type="number" min="0" step="1" value="0" />
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="field">
+                <legend>Seuils des grades</legend>
+                <div class="field-grid grade-threshold-grid">
+                  <div class="field">
+                    <label for="grade-apprentice-input">Apprenti</label>
+                    <input id="grade-apprentice-input" type="number" min="1" step="1" value="20" />
+                  </div>
+                  <div class="field">
+                    <label for="grade-confirmed-input">Confirmé</label>
+                    <input id="grade-confirmed-input" type="number" min="2" step="1" value="50" />
+                  </div>
+                  <div class="field">
+                    <label for="grade-expert-input">Expert</label>
+                    <input id="grade-expert-input" type="number" min="3" step="1" value="100" />
+                  </div>
+                  <div class="field">
+                    <label for="grade-master-input">Maître</label>
+                    <input id="grade-master-input" type="number" min="4" step="1" value="180" />
+                  </div>
+                </div>
+                <p class="field-hint">Débutant commence à 0 point. Les seuils suivants doivent augmenter.</p>
+              </fieldset>
+            </div>
+          </details>
+          <div class="modal-actions">
+            <button id="save-class-btn" class="primary">Enregistrer la classe</button>
+            <button id="delete-class-btn" class="danger" disabled>Supprimer</button>
+          </div>
+          <p id="modal-feedback" class="feedback" role="status"></p>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="leaderboard-modal" class="leaderboard-modal hidden" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+    <div class="leaderboard-shell">
+      <header class="leaderboard-header">
+        <div class="leaderboard-heading">
+          <img class="leaderboard-trophy trophy-left" src="assets/trophy.png" width="640" height="640" alt="" draggable="false" />
+          <div class="leaderboard-heading-text">
+            <h2 id="leaderboard-title">Classement de la classe</h2>
+            <p id="leaderboard-class-name"></p>
+          </div>
+          <img class="leaderboard-trophy trophy-right" src="assets/trophy.png" width="640" height="640" alt="" draggable="false" />
+        </div>
+        <button id="close-leaderboard-btn" class="leaderboard-close" aria-label="Fermer le classement">×</button>
+      </header>
+      <div class="leaderboard-scroll">
+        <section id="leaderboard-podium" class="leaderboard-podium" aria-label="Podium"></section>
+        <section id="leaderboard-ranking" class="leaderboard-ranking-section" aria-labelledby="full-ranking-title">
+          <div class="leaderboard-section-heading">
+            <h3 id="full-ranking-title">Suite du classement</h3>
+            <span id="leaderboard-count"></span>
+          </div>
+          <div id="leaderboard-list" class="leaderboard-list"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-overview-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Aperçu des pages</h2>
+        <button id="close-overview-btn" class="icon-btn" aria-label="Fermer">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="page-overview-grid" class="page-overview-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <dialog id="help-modal" class="app-dialog help-dialog" aria-labelledby="help-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="help-title">Aide · Correction Game</h2>
+        <button id="close-help-btn" class="icon-btn" aria-label="Fermer le guide" autofocus>×</button>
+      </div>
+      <div class="help-body">
+        <section class="help-intro" aria-labelledby="help-first-title">
+          <div>
+            <h3 id="help-first-title">Votre première correction</h3>
+            <ol class="help-steps" role="list">
+              <li><strong>Créez une classe.</strong> À droite, cliquez sur <strong>Créer une classe</strong> ou sur le bouton <strong>Gérer les classes</strong>. Saisissez le nom de la classe et un prénom par ligne, puis enregistrez.</li>
+              <li><strong>Ouvrez le corrigé.</strong> Cliquez sur <strong>Ouvrir un PDF</strong> et choisissez le fichier à afficher.</li>
+              <li><strong>Cachez puis révélez une réponse.</strong> Cliquez sur <strong>Masque</strong> et faites glisser le rectangle sur la réponse. Un clic dessus valide une bonne réponse. Pour une mauvaise réponse, maintenez <kbd>⌘ Commande</kbd> et cliquez.</li>
+            </ol>
+          </div>
+          <img class="help-art" src="assets/guide.webp" width="448" height="299" alt="" />
+        </section>
+
+        <details class="help-topic">
+          <summary>Classes, absences et points</summary>
+          <div class="help-topic-body">
+            <p>Choisissez la classe dans la liste <strong>Classe active</strong>. Lorsqu’une classe est sélectionnée, chaque nouveau masque est attribué à un élève présent si possible.</p>
+            <p>Pour une nouvelle classe, une bonne réponse rapporte 10 points et une mauvaise en retire 0. Pour modifier le barème, ouvrez <strong>Gérer les classes</strong>, puis <strong>Dossier, barème et grades</strong>. Le bouton trophée ouvre le classement.</p>
+            <p>Faites un clic droit sur un prénom pour indiquer une absence ou un retour. Les absences sont prises en compte dans la répartition des questions.</p>
+          </div>
+        </details>
+        <details class="help-topic">
+          <summary>Corriger avec la souris ou le trackpad</summary>
+          <div class="help-topic-body">
+            <dl class="correction-gestures">
+              <div><dt>Clic sur un masque</dt><dd>Révèle la réponse et ajoute les points d’une bonne réponse à l’élève.</dd></div>
+              <div><dt><kbd>⌘ Commande</kbd> + clic</dt><dd>Révèle la réponse et applique le barème d’une réponse fausse.</dd></div>
+              <div><dt><kbd>⌥ Option</kbd> + clic</dt><dd>Applique le barème d’une réponse fausse, garde la réponse cachée et passe la question à un autre élève présent, si possible.</dd></div>
+              <div><dt>Clic droit ou <kbd>Ctrl</kbd> + clic</dt><dd>Ouvre le choix d’un autre élève ou de <strong>Personne (cache seul)</strong>. Les points restent identiques.</dd></div>
+              <div><dt>Cliquer et faire glisser</dt><dd>Déplace le masque. Faites glisser une de ses poignées pour changer sa taille.</dd></div>
+            </dl>
+          </div>
+        </details>
+        <details class="help-topic">
+          <summary>Masques et annotations</summary>
+          <div class="help-topic-body">
+            <p>Maintenez <kbd>⌘ Commande</kbd> et tracez un rectangle sur le PDF pour créer un masque à cet endroit. Tracez avec <kbd>⌥ Option</kbd> pour créer une zone de texte. <strong>Réattribuer</strong> répartit de nouveau les masques du document actif.</p>
+            <p>Pour sélectionner plusieurs masques ou zones de texte, partez d’un endroit libre du PDF et tracez un cadre autour des éléments. Si <strong>Surligner</strong> ou <strong>Souligner</strong> est actif, maintenez <kbd>⇧ Maj</kbd>. Faites glisser un élément encadré pour déplacer la sélection, ou appuyez sur <kbd>⌫</kbd> pour la supprimer. Cliquez à côté ou appuyez sur <kbd>Échap</kbd> pour quitter la sélection.</p>
+            <p>Pour tracer une ligne, activez <strong>Souligner</strong> et glissez horizontalement, même sur une très courte distance. Faites glisser le trait ou le surlignage pour le déplacer. Une fois sélectionné, tirez sur un coin du surlignage ou sur une extrémité du trait pour changer sa taille.</p>
+            <p>Cliquez sur <strong>Texte</strong>, puis écrivez dans la zone. Double-cliquez dans une zone pour la modifier. Sa taille de départ est 12. Les couleurs, l’opacité des masques et le style du texte sont dans <strong>Réglages</strong>.</p>
+          </div>
+        </details>
+        <details class="help-topic">
+          <summary>Affichage et raccourcis</summary>
+          <div class="help-topic-body">
+            <p>Utilisez les flèches près du numéro de page, ou <strong>Aperçu</strong> pour aller directement à une page. Choisissez <strong>1 page</strong> ou <strong>2 pages</strong>. Les boutons <strong>−</strong> et <strong>+</strong> règlent le zoom et le pourcentage ramène à 100 %.</p>
+            <p>Le chevron à gauche des annotations replie la rangée des fichiers. Pour agrandir le document, masquez aussi la liste des élèves avec le bouton sur son bord gauche.</p>
+            <dl class="help-shortcuts">
+              <div><dt>Annuler la dernière action</dt><dd><kbd>⌘</kbd> + <kbd>Z</kbd></dd></div>
+              <div><dt>Rétablir une action annulée</dt><dd><kbd>⌘</kbd> + <kbd>⇧ Maj</kbd> + <kbd>Z</kbd></dd></div>
+              <div><dt>Supprimer l’élément sélectionné</dt><dd><kbd>⌫</kbd></dd></div>
+              <div><dt>Enregistrer la correction</dt><dd><kbd>⌘</kbd> + <kbd>S</kbd></dd></div>
+            </dl>
+          </div>
+        </details>
+        <details class="help-topic">
+          <summary>Plusieurs PDF, sauvegarde et reprise</summary>
+          <div class="help-topic-body">
+            <p>Avec la classe sélectionnée, ouvrez un deuxième PDF ou sélectionnez plusieurs PDF dans la fenêtre d’ouverture. Des onglets apparaissent au-dessus du document. Cliquez sur le nom d’un PDF pour retrouver sa page et ses annotations. La croix sur un onglet ferme ce PDF. Le fichier et sa session restent sur le Mac.</p>
+            <p>Sur Mac, <strong>Enregistrer</strong> crée un fichier de session portant le même nom que le PDF, avec l’extension <code>.cg.json</code>. Il contient les masques, les annotations et les données de classe.</p>
+            <p>L’app enregistre le travail en passant à un autre PDF. Gardez le PDF et le fichier de session dans le même dossier pour reprendre la correction sur un autre Mac. Si la session est ailleurs, ouvrez d’abord le PDF correspondant, puis utilisez <strong>Charger une session</strong>.</p>
+          </div>
+        </details>
+      </div>
+      <p class="help-credit">Créé par S.Bovat</p>
+    </div>
+  </dialog>
+
+  <input id="pdf-file-input" type="file" accept="application/pdf" multiple hidden />
+  <input id="session-file-input" type="file" accept=".cg.json,application/json,.json" hidden />
+
+  <script type="module" src="./app.js?v=10"></script>
+</body>
+</html>
